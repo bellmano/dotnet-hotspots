@@ -1,7 +1,15 @@
 # 🔥 dotnet-hotspots
 
-[![NuGet](https://img.shields.io/nuget/v/dotnet-hotspots.svg)](https://www.nuget.org/packages/dotnet-hotspots/)
-[![Downloads](https://img.shields.io/nuget/dt/dotnet-hotspots.svg)](https://www.nuget.org/packages/dotnet-hotspots/)
+[![NuGet](https://img.shields.io/nuget/v/dotnet-hotspots-tool.svg)](https://www.nuget.org/packages/dotnet-hotspots-tool/)
+[![Downloads](https://img.shields.io/nuget/dt/dotnet-hotspots-tool.svg)](https://www.nuget.org/packages/dotnet-hotspots-tool/)
+
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=bellmano_dotnet-hotspots&metric=coverage&token=af8ca8be11fe142ca6f11d3bc520c7578e4d66b7)](https://sonarcloud.io/summary/overall?id=bellmano_dotnet-hotspots)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=bellmano_dotnet-hotspots&metric=security_rating&token=af8ca8be11fe142ca6f11d3bc520c7578e4d66b7)](https://sonarcloud.io/summary/overall?id=bellmano_dotnet-hotspots)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=bellmano_dotnet-hotspots&metric=sqale_rating&token=af8ca8be11fe142ca6f11d3bc520c7578e4d66b7)](https://sonarcloud.io/summary/overall?id=bellmano_dotnet-hotspots)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=bellmano_dotnet-hotspots&metric=reliability_rating&token=af8ca8be11fe142ca6f11d3bc520c7578e4d66b7)](https://sonarcloud.io/summary/overall?id=bellmano_dotnet-hotspots)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=bellmano_dotnet-hotspots&metric=bugs&token=af8ca8be11fe142ca6f11d3bc520c7578e4d66b7)](https://sonarcloud.io/summary/overall?id=bellmano_dotnet-hotspots)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=bellmano_dotnet-hotspots&metric=vulnerabilities&token=af8ca8be11fe142ca6f11d3bc520c7578e4d66b7)](https://sonarcloud.io/summary/overall?id=bellmano_dotnet-hotspots)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=bellmano_dotnet-hotspots&metric=code_smells&token=af8ca8be11fe142ca6f11d3bc520c7578e4d66b7)](https://sonarcloud.io/summary/overall?id=bellmano_dotnet-hotspots)
 
 dotnet-hotspots is a .NET global tool that analyzes your Git repository's commit history to identify the most frequently changed files — often a sign of bug-prone areas, architectural bottlenecks, or critical business logic that needs extra attention.
 

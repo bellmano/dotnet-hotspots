@@ -31,90 +31,36 @@ Rank   Changes  File Path
 Code files found: 143  |  Total files in repo history: 381  |  Use --all to see everything
 ```
 
-## :rocket: Quick Start
-
-### Installation
-
-Install as a .NET global tool:
-
-```bash
-dotnet tool install --global dotnet-hotspots-tool
-```
-
-### Basic Usage
-
-Navigate to any Git repository and run:
-
-```bash
-dotnet-hotspots
-```
-
-That's it! You'll see the top 30 most frequently changed files.
-
 ## :books: Usage Examples
 
-### Show top 10 hot files
 ```bash
+# Show top 10 hot files
 dotnet-hotspots --10
-```
 
-### Show all files (including docs, configs, build artifacts)
-```bash
+# Show all files (including docs, configs, build artifacts)
 dotnet-hotspots --all
-```
 
-### Get help
-```bash
+# Get help
 dotnet-hotspots --help
-```
 
-### Show version
-```bash
+# Show version
 dotnet-hotspots --version
-```
-
-## :hammer_and_wrench: Requirements
-
-- **.NET 8.0+** (for installation)
-- **Git** repository (the tool analyzes Git history)
-- Works on **Windows**, **macOS**, and **Linux**
-
-## :package: Installation Options
-
-### Global Tool (Recommended)
-```bash
-dotnet tool install --global dotnet-hotspots-tool
-```
-
-### Update to Latest Version
-```bash
-dotnet tool update --global dotnet-hotspots-tool
-```
-
-### Uninstall
-```bash
-dotnet tool uninstall --global dotnet-hotspots-tool
-```
-
-### Local Installation (Per Project)
-```bash
-dotnet tool install dotnet-hotspots-tool
 ```
 
 ## :brain: How It Works
 
-dotnet-hotspots analyzes your repository's commit history using `git log` to:
+dotnet-hotspots runs `git log` under the hood to:
 
 1. **Extract file paths** from all commits
 2. **Count occurrences** of each file across commits
 3. **Rank files** by frequency of changes
 4. **Display results** in a clean, readable format
 
-The tool focuses on **commit frequency** rather than lines changed, giving you insight into which files require the most attention from developers.
+The tool focuses on **commit frequency** rather than lines changed, giving you insight into which files require the most developer attention.
 
 ## :mag: Smart Filtering
 
-By default, dotnet-hotspots filters out non-code files so the results focus on what matters. Use `--all` to disable filtering and see everything.
+By default, non-code files are filtered out so the results focus on what matters. Use `--all` to disable filtering and see everything.
 
 **Excluded folders:**
 `bin`, `obj`, `dist`, `build`, `publish`, `packages`, `.git`, `.vs`, `.idea`, `.nuget`, `.vscode`, `node_modules`
@@ -125,14 +71,11 @@ By default, dotnet-hotspots filters out non-code files so the results focus on w
 **Excluded files:**
 `.gitignore`, `.gitattributes`, `.editorconfig`, `.csharpierignore`, `.dockerignore`, `.env`, `Makefile`, `LICENSE`
 
-## :handshake: Contributing
-
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
 ## :mega: Issues or Suggestions
-Any issues or suggestions, please [create an issue on Github](https://github.com/bellmano/dotnet-hotspots/issues).
+
+Please [create an issue on GitHub](https://github.com/bellmano/dotnet-hotspots/issues) or visit the [repository](https://github.com/bellmano/dotnet-hotspots) for more information.
 
 ## :coffee: Buy me a coffee
 Donations are welcome to appreciate my work and to keep this project alive, but isn't required at all.
 
-<a href="https://ko-fi.com/bellmano"><img src="img/bellmano-kofi.jpg" width="50%"></a>
+https://ko-fi.com/bellmano

@@ -16,11 +16,11 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/bellmano/dotnet-hotspots.git</RepositoryUrl>
     <PackageTags>csharp;net-global-tool;net-tool;dotnet;git;tool;hotspots;analytics;code-quality;churn</PackageTags>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>NUGET_README.md</PackageReadmeFile>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\NUGET_README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">

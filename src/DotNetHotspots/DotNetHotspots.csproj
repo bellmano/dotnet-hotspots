@@ -16,7 +16,7 @@
     <PackageVersion>1.0.0</PackageVersion>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/bellmano/dotnet-hotspots.git</RepositoryUrl>
-    <PackageTags>dotnet;git;tool;hotspots;analytics;code-quality;churn</PackageTags>
+    <PackageTags>csharp;net-global-tool;net-tool;dotnet;git;tool;hotspots;analytics;code-quality;churn</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>

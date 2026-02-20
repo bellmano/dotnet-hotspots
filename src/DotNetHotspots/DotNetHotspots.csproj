@@ -18,7 +18,7 @@
     <RepositoryUrl>https://github.com/bellmano/dotnet-hotspots.git</RepositoryUrl>
     <PackageTags>csharp;net-global-tool;net-tool;dotnet;git;tool;hotspots;analytics;code-quality;churn</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <SonarQubeTestProject>false</SonarQubeTestProject>
+    <IsTestProject>false</IsTestProject>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />

@@ -24,6 +24,10 @@ jobs:
           path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
       - name: Cache SonarQube Cloud scanner
         id: cache-sonar-scanner
         uses: actions/cache@v4
@@ -43,7 +47,7 @@ jobs:
         shell: powershell
         run: |
           cd src
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"bellmano_dotnet-hotspots" /o:"bellmano" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
-          dotnet build DotNetHotspots.sln
-          dotnet test DotNetHotspots.Tests\DotNetHotspots.Tests.csproj --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"bellmano_dotnet-hotspots" /o:"bellmano" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml"
+          dotnet build DotNetHotspots.sln --no-incremental
+          dotnet test DotNetHotspots.Tests\DotNetHotspots.Tests.csproj --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
           ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

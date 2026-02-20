@@ -1,7 +1,7 @@
-# 🔥 dotnet-hotspots
+# :fire: dotnet-hotspots
 
-[![NuGet](https://img.shields.io/nuget/v/dotnet-hotspots-tool.svg)](https://www.nuget.org/packages/dotnet-hotspots-tool/)
-[![Downloads](https://img.shields.io/nuget/dt/dotnet-hotspots-tool.svg)](https://www.nuget.org/packages/dotnet-hotspots-tool/)
+[![NuGet](https://img.shields.io/nuget/v/dotnet-hotspots-tool.svg)](https://www.nuget.org/packages/dotnet-hotspots-tool)
+[![Downloads](https://img.shields.io/nuget/dt/dotnet-hotspots-tool.svg)](https://www.nuget.org/packages/dotnet-hotspots-tool)
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=bellmano_dotnet-hotspots&metric=coverage&token=af8ca8be11fe142ca6f11d3bc520c7578e4d66b7)](https://sonarcloud.io/summary/overall?id=bellmano_dotnet-hotspots)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=bellmano_dotnet-hotspots&metric=security_rating&token=af8ca8be11fe142ca6f11d3bc520c7578e4d66b7)](https://sonarcloud.io/summary/overall?id=bellmano_dotnet-hotspots)
@@ -13,7 +13,7 @@
 
 dotnet-hotspots is a .NET global tool that analyzes your Git repository's commit history to identify the most frequently changed files — often a sign of bug-prone areas, architectural bottlenecks, or critical business logic that needs extra attention.
 
-## 📸 Example
+## :camera: Example
 
 ```
 🔥 Top 10 Hot Files — Code Files Only
@@ -34,14 +34,14 @@ Rank   Changes  File Path
 Code files found: 143  |  Total files in repo history: 381  |  Use --all to see everything
 ```
 
-## 🚀 Quick Start
+## :rocket: Quick Start
 
 ### Installation
 
 Install as a .NET global tool:
 
 ```bash
-dotnet tool install --global dotnet-hotspots
+dotnet tool install --global dotnet-hotspots-tool
 ```
 
 ### Basic Usage
@@ -54,7 +54,7 @@ dotnet-hotspots
 
 That's it! You'll see the top 30 most frequently changed files.
 
-## 📚 Usage Examples
+## :books: Usage Examples
 
 ### Show top 10 hot files
 ```bash
@@ -76,35 +76,35 @@ dotnet-hotspots --help
 dotnet-hotspots --version
 ```
 
-## 🛠️ Requirements
+## :hammer_and_wrench: Requirements
 
 - **.NET 8.0+** (for installation)
 - **Git** repository (the tool analyzes Git history)
 - Works on **Windows**, **macOS**, and **Linux**
 
-## 📦 Installation Options
+## :package: Installation Options
 
 ### Global Tool (Recommended)
 ```bash
-dotnet tool install --global dotnet-hotspots
+dotnet tool install --global dotnet-hotspots-tool
 ```
 
 ### Update to Latest Version
 ```bash
-dotnet tool update --global dotnet-hotspots
+dotnet tool update --global dotnet-hotspots-tool
 ```
 
 ### Uninstall
 ```bash
-dotnet tool uninstall --global dotnet-hotspots
+dotnet tool uninstall --global dotnet-hotspots-tool
 ```
 
 ### Local Installation (Per Project)
 ```bash
-dotnet tool install dotnet-hotspots
+dotnet tool install dotnet-hotspots-tool
 ```
 
-## 🧠 How It Works
+## :brain: How It Works
 
 dotnet-hotspots analyzes your repository's commit history using `git log` to:
 
@@ -115,7 +115,7 @@ dotnet-hotspots analyzes your repository's commit history using `git log` to:
 
 The tool focuses on **commit frequency** rather than lines changed, giving you insight into which files require the most attention from developers.
 
-## 🔍 Smart Filtering
+## :mag: Smart Filtering
 
 By default, dotnet-hotspots filters out non-code files so the results focus on what matters. Use `--all` to disable filtering and see everything.
 

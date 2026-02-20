@@ -13,7 +13,6 @@
     <PackageId>dotnet-hotspots-tool</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/bellmano/dotnet-hotspots</PackageProjectUrl>
-    <PackageVersion>1.0.0</PackageVersion>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/bellmano/dotnet-hotspots.git</RepositoryUrl>
     <PackageTags>csharp;net-global-tool;net-tool;dotnet;git;tool;hotspots;analytics;code-quality;churn</PackageTags>

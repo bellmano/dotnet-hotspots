@@ -1,0 +1,61 @@
+name: Release / Deploy
+
+on:
+  workflow_dispatch
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      # Sanity check – the full test suite is also run in the CI workflow on every push/PR.
+      - name: Test
+        run: dotnet test src/DotNetHotspots.Tests/DotNetHotspots.Tests.csproj -c Release
+
+      - name: Pack
+        id: package
+        run: |
+          VERSION=$(cat semver.txt)
+          OUTPUT=${{ runner.temp }}/nupkgs
+          mkdir -p "$OUTPUT"
+          PACKAGE_NAME="dotnet-hotspots-tool.$VERSION.nupkg"
+          PACKAGE_PATH="$OUTPUT/$PACKAGE_NAME"
+          echo "version=$VERSION"           >> $GITHUB_OUTPUT
+          echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+          echo "package_path=$PACKAGE_PATH" >> $GITHUB_OUTPUT
+          dotnet pack src/DotNetHotspots/DotNetHotspots.csproj \
+            -c Release \
+            /p:Version=$VERSION \
+            -o "$OUTPUT"
+
+      - name: Push to NuGet
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          dotnet nuget push "${{ steps.package.outputs.package_path }}" \
+            --api-key "$NUGET_API_KEY" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+
+      # Creates the git tag and GitHub Release, and attaches the .nupkg as a release asset.
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.package.outputs.version }}
+          name: v${{ steps.package.outputs.version }}
+          draft: false
+          prerelease: false
+          files: ${{ steps.package.outputs.package_path }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

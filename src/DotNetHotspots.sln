@@ -1,0 +1,32 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+
+Project("{D4B5C6E7-89FA-4123-B0CD-4E5F6A7B8C9D}") = "DotNetHotspots", "DotNetHotspots\DotNetHotspots.csproj", "E7B9C2D4-6A3F-4D2B-8C1E-5F4A3B2C1D90"
+EndProject
+Project("{D4B5C6E7-89FA-4123-B0CD-4E5F6A7B8C9D}") = "DotNetHotspots.Tests", "DotNetHotspots.Tests\DotNetHotspots.Tests.csproj", "{C1A2B3D4-E5F6-4789-ABCD-1234567890EF}"
+EndProject
+
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7B9C2D4-6A3F-4D2B-8C1E-5F4A3B2C1D90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7B9C2D4-6A3F-4D2B-8C1E-5F4A3B2C1D90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7B9C2D4-6A3F-4D2B-8C1E-5F4A3B2C1D90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7B9C2D4-6A3F-4D2B-8C1E-5F4A3B2C1D90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1A2B3D4-E5F6-4789-ABCD-1234567890EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1A2B3D4-E5F6-4789-ABCD-1234567890EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1A2B3D4-E5F6-4789-ABCD-1234567890EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1A2B3D4-E5F6-4789-ABCD-1234567890EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9F8E7D6C-5B4A-4321-90AB-CDEF12345678}
+	EndGlobalSection
+EndGlobal

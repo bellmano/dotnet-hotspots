@@ -1,1 +1,133 @@
-# dotnet-hotspots
+# 🔥 dotnet-hotspots
+
+[![NuGet](https://img.shields.io/nuget/v/dotnet-hotspots.svg)](https://www.nuget.org/packages/dotnet-hotspots/)
+[![Downloads](https://img.shields.io/nuget/dt/dotnet-hotspots.svg)](https://www.nuget.org/packages/dotnet-hotspots/)
+
+dotnet-hotspots is a .NET global tool that analyzes your Git repository's commit history to identify the most frequently changed files — often a sign of bug-prone areas, architectural bottlenecks, or critical business logic that needs extra attention.
+
+## 📸 Example
+
+```
+🔥 Top 10 Hot Files — Code Files Only
+================================================================================
+Rank   Changes  File Path
+--------------------------------------------------------------------------------
+1      312      src/Services/UserService.cs
+2      287      src/Data/ApplicationDbContext.cs
+3      201      src/Controllers/AuthController.cs
+4      198      src/Services/OrderService.cs
+5      176      src/Models/User.cs
+6      154      src/Services/PaymentService.cs
+7      143      src/Controllers/OrderController.cs
+8      121      src/Repositories/UserRepository.cs
+9      115      src/Services/EmailService.cs
+10     98       src/Models/Order.cs
+================================================================================
+Code files found: 143  |  Total files in repo history: 381  |  Use --all to see everything
+```
+
+## 🚀 Quick Start
+
+### Installation
+
+Install as a .NET global tool:
+
+```bash
+dotnet tool install --global dotnet-hotspots
+```
+
+### Basic Usage
+
+Navigate to any Git repository and run:
+
+```bash
+dotnet-hotspots
+```
+
+That's it! You'll see the top 30 most frequently changed files.
+
+## 📚 Usage Examples
+
+### Show top 10 hot files
+```bash
+dotnet-hotspots --10
+```
+
+### Show all files (including docs, configs, build artifacts)
+```bash
+dotnet-hotspots --all
+```
+
+### Get help
+```bash
+dotnet-hotspots --help
+```
+
+### Show version
+```bash
+dotnet-hotspots --version
+```
+
+## 🛠️ Requirements
+
+- **.NET 8.0+** (for installation)
+- **Git** repository (the tool analyzes Git history)
+- Works on **Windows**, **macOS**, and **Linux**
+
+## 📦 Installation Options
+
+### Global Tool (Recommended)
+```bash
+dotnet tool install --global dotnet-hotspots
+```
+
+### Update to Latest Version
+```bash
+dotnet tool update --global dotnet-hotspots
+```
+
+### Uninstall
+```bash
+dotnet tool uninstall --global dotnet-hotspots
+```
+
+### Local Installation (Per Project)
+```bash
+dotnet tool install dotnet-hotspots
+```
+
+## 🧠 How It Works
+
+dotnet-hotspots analyzes your repository's commit history using `git log` to:
+
+1. **Extract file paths** from all commits
+2. **Count occurrences** of each file across commits
+3. **Rank files** by frequency of changes
+4. **Display results** in a clean, readable format
+
+The tool focuses on **commit frequency** rather than lines changed, giving you insight into which files require the most attention from developers.
+
+## 🔍 Smart Filtering
+
+By default, dotnet-hotspots filters out non-code files so the results focus on what matters. Use `--all` to disable filtering and see everything.
+
+**Excluded folders:**
+`bin`, `obj`, `dist`, `build`, `publish`, `packages`, `.git`, `.vs`, `.idea`, `.nuget`, `.vscode`, `node_modules`
+
+**Excluded extensions:**
+`.md`, `.txt`, `.log`, `.lock`, `.sum`
+
+**Excluded files:**
+`.gitignore`, `.gitattributes`, `.editorconfig`, `.csharpierignore`, `.dockerignore`, `.env`, `Makefile`, `LICENSE`
+
+## :handshake: Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## :mega: Issues or Suggestions
+Any issues or suggestions, please [create an issue on Github](https://github.com/bellmano/dotnet-hotspots/issues).
+
+## :coffee: Buy me a coffee
+Donations are welcome to appreciate my work and to keep this project alive, but isn't required at all.
+
+<a href="https://ko-fi.com/bellmano"><img src="img/bellmano-kofi.jpg" width="50%"></a>

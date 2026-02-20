@@ -1,0 +1,14 @@
+{
+    "git.autofetch": true,
+    "dotnet.defaultSolution": "src/DotNetHotspots.sln",
+    "dotnet-test-explorer.testProjectPath": "/src/DotNetHotspots.Tests/DotNetHotspots.Tests.csproj",
+    "dotnet.preferCSharpExtension": false,
+    "editor.formatOnSave": true,
+    "[csharp]": {
+        "editor.defaultFormatter": "csharpier.csharpier-vscode"
+    },
+    "sonarlint.connectedMode.project": {
+        "connectionId": "bellmano",
+        "projectKey": "bellmano_dotnet-hotspots"
+    }
+}

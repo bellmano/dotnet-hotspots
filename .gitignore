@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+TestResults/
+nupkg/
+*.user
+lcov.info
+coveragereport/
+coverage.info
+.DS_Store

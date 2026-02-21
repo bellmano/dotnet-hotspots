@@ -47,6 +47,22 @@ dotnet-hotspots --help
 dotnet-hotspots --version
 ```
 
+## :package: Installation Options
+
+```bash
+# Global Tool (Recommended)
+dotnet tool install --global dotnet-hotspots-tool
+
+# Update to Latest Version
+dotnet tool update --global dotnet-hotspots-tool
+
+# Uninstall
+dotnet tool uninstall --global dotnet-hotspots-tool
+
+# Local Installation (Per Project)
+dotnet tool install dotnet-hotspots-tool
+```
+
 ## :brain: How It Works
 
 dotnet-hotspots runs `git log` under the hood to:

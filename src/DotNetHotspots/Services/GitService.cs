@@ -11,7 +11,12 @@ namespace DotNetHotspots.Services;
 
 public static class GitService
 {
-    public static Task<bool> IsGitRepositoryAsync() => IsGitRepositoryAsync(RunGitCommandAsync);
+    private static readonly Func<
+        string,
+        Task<(int ExitCode, string Output, string Error)>
+    > s_runGitCommand = RunGitCommandAsync;
+
+    public static Task<bool> IsGitRepositoryAsync() => IsGitRepositoryAsync(s_runGitCommand);
 
     internal static async Task<bool> IsGitRepositoryAsync(
         Func<string, Task<(int ExitCode, string Output, string Error)>> runGitCommand
@@ -29,7 +34,7 @@ public static class GitService
     }
 
     public static Task<List<FileChangeStat>> GetFileChangeStatsAsync() =>
-        GetFileChangeStatsAsync(RunGitCommandAsync);
+        GetFileChangeStatsAsync(s_runGitCommand);
 
     internal static async Task<List<FileChangeStat>> GetFileChangeStatsAsync(
         Func<string, Task<(int ExitCode, string Output, string Error)>> runGitCommand

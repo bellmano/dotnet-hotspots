@@ -37,7 +37,7 @@ Code files found: 143  |  Total files in repo history: 381  |  Use --all to see 
 # Show top 10 hot files
 dotnet-hotspots --10
 
-# Show all files (including docs, configs, build artifacts)
+# Show all files (including docs, configs, build artifacts, etc.)
 dotnet-hotspots --all
 
 # Get help

@@ -58,7 +58,7 @@ That's it! You'll see the top 30 most frequently changed files.
 dotnet-hotspots --10
 ```
 
-### Show all files (including docs, configs, build artifacts)
+### Show all files (including docs, configs, build artifacts, etc.)
 ```bash
 dotnet-hotspots --all
 ```

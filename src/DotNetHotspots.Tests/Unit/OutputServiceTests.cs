@@ -25,10 +25,6 @@ public class OutputServiceTests
         }
     }
 
-    // -------------------------------------------------------------------------
-    // ShowHelp
-    // -------------------------------------------------------------------------
-
     [Fact]
     public void ShowHelp_ContainsToolName()
     {
@@ -46,10 +42,6 @@ public class OutputServiceTests
         Assert.Contains("--version", output);
         Assert.Contains("--help", output);
     }
-
-    // -------------------------------------------------------------------------
-    // DisplayResults — title
-    // -------------------------------------------------------------------------
 
     [Fact]
     public void DisplayResults_ShowAll_UseAllFilesTitle()
@@ -77,10 +69,6 @@ public class OutputServiceTests
         Assert.Contains("Code Files Only", output);
     }
 
-    // -------------------------------------------------------------------------
-    // DisplayResults — footer
-    // -------------------------------------------------------------------------
-
     [Fact]
     public void DisplayResults_ShowAll_FooterShowsTotalFilesAnalyzed()
     {
@@ -107,10 +95,6 @@ public class OutputServiceTests
         Assert.Contains("Code files found:", output);
         Assert.Contains("--all", output);
     }
-
-    // -------------------------------------------------------------------------
-    // DisplayResults — count and truncation
-    // -------------------------------------------------------------------------
 
     [Fact]
     public void DisplayResults_RespectsCountLimit()

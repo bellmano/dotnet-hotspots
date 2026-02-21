@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Threading.Tasks;
 using DotNetHotspots.Models;
@@ -10,6 +10,7 @@ namespace DotNetHotspots;
 
 static class Program
 {
+    [ExcludeFromCodeCoverage]
     static Task<int> Main(string[] args) =>
         RunAsync(args, GitService.IsGitRepositoryAsync, GitService.GetFileChangeStatsAsync);
 
@@ -31,12 +32,7 @@ static class Program
 
             if (options.ShowVersion)
             {
-                var version =
-                    Assembly
-                        .GetEntryAssembly()
-                        ?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
-                        ?.InformationalVersion ?? "1.0.0";
-                Console.WriteLine($"dotnet-hotspots v{version}");
+                Console.WriteLine($"dotnet-hotspots v{GetVersion()}");
                 return 0;
             }
 
@@ -49,7 +45,7 @@ static class Program
 
             var allFileStats = await getStats();
 
-            if (!allFileStats.Any())
+            if (allFileStats.Count == 0)
             {
                 Console.WriteLine("No files found with changes in this repository.");
                 return 0;
@@ -74,4 +70,14 @@ static class Program
             return 1;
         }
     }
+
+    [ExcludeFromCodeCoverage(
+        Justification = "Assembly version resolution depends on entry-assembly attributes — cannot be controlled from unit tests."
+    )]
+    private static string GetVersion() =>
+        Assembly
+            .GetEntryAssembly()
+            ?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+            ?.InformationalVersion
+        ?? "1.0.0";
 }

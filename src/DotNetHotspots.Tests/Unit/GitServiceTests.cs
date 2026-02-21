@@ -1,5 +1,6 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using DotNetHotspots.Models;
 using DotNetHotspots.Services;
 using Xunit;
@@ -8,74 +9,74 @@ namespace DotNetHotspots.Tests.Unit;
 
 public class GitServiceTests
 {
-    // -------------------------------------------------------------------------
-    // IsCodeFile — include
-    // -------------------------------------------------------------------------
-
     [Theory]
     [InlineData("src/Services/UserService.cs")]
     [InlineData("Program.cs")]
     [InlineData("src/app.js")]
     [InlineData("Dockerfile")]
+    [InlineData("src\\Services\\UserService.cs")]
     public void IsCodeFile_Returns_True_ForCodeFiles(string path)
     {
         Assert.True(GitService.IsCodeFile(path));
     }
 
-    // -------------------------------------------------------------------------
-    // IsCodeFile — exclude
-    // -------------------------------------------------------------------------
-
     [Theory]
+    // Excluded directories (all variants)
     [InlineData("bin/Debug/MyApp.dll")]
     [InlineData("obj/Debug/net8.0/MyApp.dll")]
     [InlineData("node_modules/lodash/index.js")]
     [InlineData(".vs/config/applicationhost.config")]
-    public void IsCodeFile_Returns_False_ForExcludedDirectories(string path)
-    {
-        Assert.False(GitService.IsCodeFile(path));
-    }
-
-    [Theory]
+    [InlineData(".idea/project.xml")]
+    [InlineData("dist/bundle.js")]
+    [InlineData("build/output.o")]
+    [InlineData("publish/app.dll")]
+    [InlineData("packages/library.nupkg")]
+    [InlineData(".nuget/nuget.config")]
+    [InlineData(".vscode/settings.json")]
+    [InlineData(".git/config")]
+    [InlineData("bin\\Debug\\MyApp.dll")]
+    [InlineData("src/bin/nested/file.cs")]
+    [InlineData("src/obj/nested/file.cs")]
     [InlineData("README.md")]
     [InlineData("src/NOTES.txt")]
     [InlineData("logs/output.log")]
-    public void IsCodeFile_Returns_False_ForExcludedExtensions(string path)
-    {
-        Assert.False(GitService.IsCodeFile(path));
-    }
-
-    [Theory]
+    [InlineData("Gemfile.lock")]
+    [InlineData("go.sum")]
+    [InlineData("appsettings.json")]
+    [InlineData("src/config/settings.xml")]
+    [InlineData(".github/workflows/ci.yml")]
+    [InlineData("docker-compose.yaml")]
+    [InlineData("pyproject.toml")]
+    [InlineData("setup.ini")]
+    [InlineData("app.cfg")]
+    [InlineData("web.config")]
+    [InlineData("img/logo.jpg")]
+    [InlineData("assets/banner.jpeg")]
+    [InlineData("docs/screenshot.png")]
+    [InlineData("src/icon.ico")]
+    [InlineData("logo.svg")]
+    [InlineData("img/photo.gif")]
+    [InlineData("img/photo.bmp")]
+    [InlineData("img/photo.webp")]
     [InlineData(".gitignore")]
+    [InlineData(".gitattributes")]
+    [InlineData(".editorconfig")]
+    [InlineData(".csharpierignore")]
+    [InlineData(".dockerignore")]
+    [InlineData(".env")]
     [InlineData("LICENSE")]
     [InlineData("Makefile")]
-    public void IsCodeFile_Returns_False_ForExcludedFileNames(string path)
+    public void IsCodeFile_Returns_False_ForExcludedPaths(string path)
     {
         Assert.False(GitService.IsCodeFile(path));
     }
 
     [Fact]
-    public void IsCodeFile_HandlesWindowsBackslashPaths_Include()
-    {
-        Assert.True(GitService.IsCodeFile("src\\Services\\UserService.cs"));
-    }
-
-    [Fact]
-    public void IsCodeFile_HandlesWindowsBackslashPaths_Exclude()
-    {
-        Assert.False(GitService.IsCodeFile("bin\\Debug\\MyApp.dll"));
-    }
-
-    // -------------------------------------------------------------------------
-    // FilterCodeFiles
-    // -------------------------------------------------------------------------
-
-    [Fact]
-    public void FilterCodeFiles_RemovesNonCodeFiles()
+    public void FilterCodeFiles_RemovesNonCodeFiles_AndPreservesOrder()
     {
         var input = new List<FileChangeStat>
         {
-            new() { FilePath = "src/Services/UserService.cs", ChangeCount = 50 },
+            new() { FilePath = "src/Services/UserService.cs", ChangeCount = 100 },
             new() { FilePath = "README.md", ChangeCount = 10 },
             new() { FilePath = "bin/Debug/App.dll", ChangeCount = 5 },
             new() { FilePath = ".gitignore", ChangeCount = 3 },
@@ -85,24 +86,8 @@ public class GitServiceTests
         var result = GitService.FilterCodeFiles(input);
 
         Assert.Equal(2, result.Count);
-        Assert.All(result, f => Assert.EndsWith(".cs", f.FilePath));
-    }
-
-    [Fact]
-    public void FilterCodeFiles_PreservesOrder()
-    {
-        var input = new List<FileChangeStat>
-        {
-            new() { FilePath = "src/Services/UserService.cs", ChangeCount = 100 },
-            new() { FilePath = "src/Models/Order.cs", ChangeCount = 50 },
-            new() { FilePath = "src/Controllers/AuthController.cs", ChangeCount = 25 },
-        };
-
-        var result = GitService.FilterCodeFiles(input);
-
-        Assert.Equal(100, result[0].ChangeCount);
-        Assert.Equal(50, result[1].ChangeCount);
-        Assert.Equal(25, result[2].ChangeCount);
+        Assert.Equal("src/Services/UserService.cs", result[0].FilePath);
+        Assert.Equal("src/Models/Order.cs", result[1].FilePath);
     }
 
     [Fact]
@@ -110,10 +95,6 @@ public class GitServiceTests
     {
         Assert.Empty(GitService.FilterCodeFiles([]));
     }
-
-    // -------------------------------------------------------------------------
-    // ParseGitLogOutput
-    // -------------------------------------------------------------------------
 
     [Fact]
     public void ParseGitLogOutput_CountsOccurrencesAndSortsDescending()
@@ -139,16 +120,13 @@ public class GitServiceTests
         Assert.Equal(1, result[2].ChangeCount);
     }
 
-    [Fact]
-    public void ParseGitLogOutput_EmptyInput_ReturnsEmpty()
+    [Theory]
+    [InlineData("")]
+    [InlineData("\n\n\n")]
+    [InlineData("   \n   \n")] // lines that trim to empty string
+    public void ParseGitLogOutput_EmptyOrBlankInput_ReturnsEmpty(string input)
     {
-        Assert.Empty(GitService.ParseGitLogOutput(string.Empty));
-    }
-
-    [Fact]
-    public void ParseGitLogOutput_BlankLinesAreIgnored()
-    {
-        Assert.Empty(GitService.ParseGitLogOutput("\n\n\n"));
+        Assert.Empty(GitService.ParseGitLogOutput(input));
     }
 
     [Fact]
@@ -173,7 +151,7 @@ public class GitServiceTests
     }
 
     [Fact]
-    public void ParseGitLogOutput_TrimsWhitespace()
+    public void ParseGitLogOutput_TrimsWhitespaceAndDeduplicates()
     {
         var result = GitService.ParseGitLogOutput(
             "  src/Services/UserService.cs  \n  src/Services/UserService.cs  \n"
@@ -182,5 +160,57 @@ public class GitServiceTests
         Assert.Single(result);
         Assert.Equal("src/Services/UserService.cs", result[0].FilePath);
         Assert.Equal(2, result[0].ChangeCount);
+    }
+
+    [Fact]
+    public async Task IsGitRepositoryAsync_InsideGitRepo_ReturnsTrue()
+    {
+        var result = await GitService.IsGitRepositoryAsync();
+        Assert.True(result);
+    }
+
+    [Fact]
+    public async Task IsGitRepositoryAsync_NonZeroExitCode_ReturnsFalse()
+    {
+        var result = await GitService.IsGitRepositoryAsync(_ =>
+            Task.FromResult((1, string.Empty, "fatal: not a git repository"))
+        );
+        Assert.False(result);
+    }
+
+    [Fact]
+    public async Task IsGitRepositoryAsync_RunnerThrows_ReturnsFalse()
+    {
+        var result = await GitService.IsGitRepositoryAsync(_ =>
+            throw new InvalidOperationException("git not found")
+        );
+        Assert.False(result);
+    }
+
+    [Fact]
+    public async Task GetFileChangeStatsAsync_ReturnsListSortedDescending()
+    {
+        var result = await GitService.GetFileChangeStatsAsync();
+        Assert.NotNull(result);
+        for (int i = 0; i < result.Count - 1; i++)
+            Assert.True(result[i].ChangeCount >= result[i + 1].ChangeCount);
+    }
+
+    [Fact]
+    public async Task GetFileChangeStatsAsync_GitLogFails_ThrowsInvalidOperationException()
+    {
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            GitService.GetFileChangeStatsAsync(_ =>
+                Task.FromResult((1, string.Empty, "fatal: not a git repository"))
+            )
+        );
+    }
+
+    [Fact]
+    public async Task RunGitCommandAsync_ValidCommand_ReturnsZeroExitCode()
+    {
+        var result = await GitService.RunGitCommandAsync("--version");
+        Assert.Equal(0, result.ExitCode);
+        Assert.Contains("git", result.Output, StringComparison.OrdinalIgnoreCase);
     }
 }

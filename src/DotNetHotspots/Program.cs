@@ -74,10 +74,16 @@ static class Program
     [ExcludeFromCodeCoverage(
         Justification = "Assembly version resolution depends on entry-assembly attributes — cannot be controlled from unit tests."
     )]
-    private static string GetVersion() =>
-        Assembly
-            .GetEntryAssembly()
-            ?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
-            ?.InformationalVersion
-        ?? "1.0.0";
+    private static string GetVersion()
+    {
+        var version =
+            Assembly
+                .GetEntryAssembly()
+                ?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                ?.InformationalVersion
+            ?? "1.0.0";
+
+        var plusIndex = version.IndexOf('+');
+        return plusIndex >= 0 ? version[..plusIndex] : version;
+    }
 }

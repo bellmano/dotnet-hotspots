@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using DotNetHotspots;
 using DotNetHotspots.Models;
 using Xunit;
 
@@ -10,16 +9,23 @@ namespace DotNetHotspots.Tests.Unit;
 
 public class ProgramTests
 {
-    private static IDisposable SuppressConsole()
+    private static Restore SuppressConsole()
     {
         var original = Console.Out;
         Console.SetOut(TextWriter.Null);
         return new Restore(() => Console.SetOut(original));
     }
 
-    private sealed class Restore(Action action) : IDisposable
+    private sealed class Restore : IDisposable
     {
-        public void Dispose() => action();
+        private readonly Action _restore;
+
+        public Restore(Action restore)
+        {
+            _restore = restore;
+        }
+
+        public void Dispose() => _restore();
     }
 
     private static Task<int> Run(

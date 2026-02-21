@@ -28,8 +28,8 @@ public static class OutputService
     {
         var displayed = Math.Min(count, fileStats.Count);
         var title = showAll
-            ? $"🔥 Top {displayed} Hot Files — All Files"
-            : $"🔥 Top {displayed} Hot Files — Code Files Only";
+            ? $"Top {displayed} Hot Files — All Files"
+            : $"Top {displayed} Hot Files — Code Files Only";
 
         Console.WriteLine(title);
         Console.WriteLine("".PadRight(80, '='));
@@ -43,7 +43,7 @@ public static class OutputService
             var changes = stat.ChangeCount.ToString();
             var filePath =
                 stat.FilePath.Length > 50
-                    ? "..." + stat.FilePath.Substring(stat.FilePath.Length - 47)
+                    ? "..." + new string(stat.FilePath.AsSpan(stat.FilePath.Length - 47))
                     : stat.FilePath;
 
             Console.WriteLine($"{rank, -6} {changes, -8} {filePath}");

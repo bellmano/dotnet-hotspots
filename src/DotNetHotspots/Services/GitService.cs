@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,11 +11,15 @@ namespace DotNetHotspots.Services;
 
 public static class GitService
 {
-    public static async Task<bool> IsGitRepositoryAsync()
+    public static Task<bool> IsGitRepositoryAsync() => IsGitRepositoryAsync(RunGitCommandAsync);
+
+    internal static async Task<bool> IsGitRepositoryAsync(
+        Func<string, Task<(int ExitCode, string Output, string Error)>> runGitCommand
+    )
     {
         try
         {
-            var result = await RunGitCommandAsync("rev-parse --git-dir");
+            var result = await runGitCommand("rev-parse --git-dir");
             return result.ExitCode == 0;
         }
         catch
@@ -23,15 +28,20 @@ public static class GitService
         }
     }
 
-    public static async Task<List<FileChangeStat>> GetFileChangeStatsAsync()
+    public static Task<List<FileChangeStat>> GetFileChangeStatsAsync() =>
+        GetFileChangeStatsAsync(RunGitCommandAsync);
+
+    internal static async Task<List<FileChangeStat>> GetFileChangeStatsAsync(
+        Func<string, Task<(int ExitCode, string Output, string Error)>> runGitCommand
+    )
     {
         var gitArgs = "log --name-only --pretty=format:";
 
-        var result = await RunGitCommandAsync(gitArgs);
+        var result = await runGitCommand(gitArgs);
 
         if (result.ExitCode != 0)
         {
-            throw new Exception($"Failed to get git log: {result.Error}");
+            throw new InvalidOperationException($"Failed to get git log: {result.Error}");
         }
 
         return ParseGitLogOutput(result.Output);
@@ -59,11 +69,30 @@ public static class GitService
         StringComparer.OrdinalIgnoreCase
     )
     {
+        // Docs / text
         ".md",
         ".txt",
         ".lock",
         ".sum",
         ".log",
+        // Config / data
+        ".json",
+        ".xml",
+        ".yaml",
+        ".yml",
+        ".toml",
+        ".ini",
+        ".cfg",
+        ".config",
+        // Images
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".gif",
+        ".bmp",
+        ".svg",
+        ".ico",
+        ".webp",
     };
 
     private static readonly HashSet<string> ExcludedFileNames = new(
@@ -121,9 +150,9 @@ public static class GitService
             var trimmedLine = line.Trim();
             if (!string.IsNullOrEmpty(trimmedLine) && !trimmedLine.StartsWith("commit"))
             {
-                if (fileChanges.ContainsKey(trimmedLine))
+                if (fileChanges.TryGetValue(trimmedLine, out var count))
                 {
-                    fileChanges[trimmedLine]++;
+                    fileChanges[trimmedLine] = count + 1;
                 }
                 else
                 {
@@ -138,13 +167,49 @@ public static class GitService
             .ToList();
     }
 
-    private static async Task<(int ExitCode, string Output, string Error)> RunGitCommandAsync(
+    private static string? _gitExecutablePath;
+
+    [ExcludeFromCodeCoverage(
+        Justification = "OS-level git PATH resolution with a static cache — cannot be unit-tested without removing git from PATH."
+    )]
+    private static string FindGitExecutable()
+    {
+        if (_gitExecutablePath is not null)
+            return _gitExecutablePath;
+
+        var gitName = OperatingSystem.IsWindows() ? "git.exe" : "git";
+        var pathVar = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
+
+        foreach (
+            var dir in pathVar.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
+        )
+        {
+            try
+            {
+                var candidate = Path.GetFullPath(Path.Combine(dir, gitName));
+                if (File.Exists(candidate))
+                {
+                    _gitExecutablePath = candidate;
+                    return candidate;
+                }
+            }
+            catch (Exception)
+            {
+                // Skip invalid PATH entries
+            }
+        }
+
+        _gitExecutablePath = gitName; // Fallback — let the OS resolve it
+        return _gitExecutablePath;
+    }
+
+    internal static async Task<(int ExitCode, string Output, string Error)> RunGitCommandAsync(
         string arguments
     )
     {
         var startInfo = new ProcessStartInfo
         {
-            FileName = "git",
+            FileName = FindGitExecutable(),
             Arguments = arguments,
             RedirectStandardOutput = true,
             RedirectStandardError = true,

@@ -13,7 +13,7 @@ dotnet-hotspots is a .NET global tool that analyzes your Git repository's commit
 ## :camera: Example
 
 ```
-🔥 Top 10 Hot Files — Code Files Only
+Top 10 Hot Files — Code Files Only
 ================================================================================
 Rank   Changes  File Path
 --------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ Code files found: 143  |  Total files in repo history: 381  |  Use --all to see 
 # Show top 10 hot files
 dotnet-hotspots --10
 
-# Show all files (including docs, configs, build artifacts)
+# Show all files (including docs, configs, build artifacts, etc.)
 dotnet-hotspots --all
 
 # Get help

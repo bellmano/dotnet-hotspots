@@ -47,7 +47,7 @@ jobs:
         shell: powershell
         run: |
           cd src
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"bellmano_dotnet-hotspots" /o:"bellmano" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/TestResults/coverage/coverage.opencover.xml" /d:sonar.scanner.scanAll=false /d:sonar.dotnet.excludeTestProjects=true
-          dotnet build DotNetHotspots.sln --no-incremental
-          dotnet test DotNetHotspots.Tests\DotNetHotspots.Tests.csproj --no-build --collect:"XPlat Code Coverage" --results-directory TestResults/coverage -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"bellmano_dotnet-hotspots" /o:"bellmano" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" /d:sonar.scanner.scanAll=false
+          dotnet build DotNetHotspots.sln --no-incremental --framework net10.0
+          dotnet test DotNetHotspots.Tests\DotNetHotspots.Tests.csproj --framework net10.0 --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
           ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

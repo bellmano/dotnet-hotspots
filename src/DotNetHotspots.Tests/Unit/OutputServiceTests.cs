@@ -114,7 +114,7 @@ public class OutputServiceTests
     }
 
     [Fact]
-    public void DisplayResults_TruncatesLongFilePaths()
+    public void DisplayResults_ShowsFullFilePathWithoutTruncation()
     {
         var longPath = "src/" + new string('a', 60) + ".cs";
         var stats = new List<FileChangeStat>
@@ -124,6 +124,7 @@ public class OutputServiceTests
 
         var output = Capture(() => OutputService.DisplayResults(stats, 30, 1, showAll: false));
 
-        Assert.Contains("...", output);
+        Assert.Contains(longPath, output);
+        Assert.DoesNotContain("...", output);
     }
 }

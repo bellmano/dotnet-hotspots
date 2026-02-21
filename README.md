@@ -13,7 +13,7 @@ dotnet-hotspots is a .NET global tool that analyzes your Git repository's commit
 ## :camera: Example
 
 ```
-🔥 Top 10 Hot Files — Code Files Only
+Top 10 Hot Files — Code Files Only
 ================================================================================
 Rank   Changes  File Path
 --------------------------------------------------------------------------------

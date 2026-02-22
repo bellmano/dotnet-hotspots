@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DotNetHotspots.Models;
 
 namespace DotNetHotspots.Services;
@@ -31,25 +32,30 @@ public static class OutputService
             ? $"Top {displayed} Hot Files — All Files"
             : $"Top {displayed} Hot Files — Code Files Only";
 
+        const int rankWidth = 6;
+        const int changesWidth = 8;
+        const int minPathWidth = 9; // "File Path".Length
+        var pathColumnWidth = Math.Max(
+            minPathWidth,
+            fileStats.Count > 0 ? fileStats.Take(displayed).Max(f => f.FilePath.Length) : minPathWidth
+        );
+        var totalWidth = rankWidth + 1 + changesWidth + 1 + pathColumnWidth;
+
         Console.WriteLine(title);
-        Console.WriteLine("".PadRight(80, '='));
-        Console.WriteLine($"{"Rank", -6} {"Changes", -8} {"File Path", -50}");
-        Console.WriteLine("".PadRight(80, '-'));
+        Console.WriteLine("".PadRight(totalWidth, '='));
+        Console.WriteLine($"{"Rank", -6} {"Changes", -8} {"File Path"}");
+        Console.WriteLine("".PadRight(totalWidth, '-'));
 
         for (int i = 0; i < displayed; i++)
         {
             var stat = fileStats[i];
             var rank = (i + 1).ToString();
             var changes = stat.ChangeCount.ToString();
-            var filePath =
-                stat.FilePath.Length > 50
-                    ? "..." + new string(stat.FilePath.AsSpan(stat.FilePath.Length - 47))
-                    : stat.FilePath;
 
-            Console.WriteLine($"{rank, -6} {changes, -8} {filePath}");
+            Console.WriteLine($"{rank, -6} {changes, -8} {stat.FilePath}");
         }
 
-        Console.WriteLine("".PadRight(80, '='));
+        Console.WriteLine("".PadRight(totalWidth, '='));
 
         if (showAll)
         {

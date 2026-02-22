@@ -43,6 +43,6 @@ jobs:
         shell: powershell
         run: |
           cd src
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"bellmano_dotnet-hotspots" /o:"bellmano" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.tests="DotNetHotspots.Tests"
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"bellmano_dotnet-hotspots" /o:"bellmano" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
           dotnet build DotNetHotspots/DotNetHotspots.csproj -f net10.0
           ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

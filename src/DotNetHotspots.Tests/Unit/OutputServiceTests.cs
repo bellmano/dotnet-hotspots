@@ -127,4 +127,14 @@ public class OutputServiceTests
         Assert.Contains(longPath, output);
         Assert.DoesNotContain("...", output);
     }
+
+    [Fact]
+    public void DisplayResults_EmptyFileStats_DoesNotThrow()
+    {
+        var stats = new List<FileChangeStat>();
+
+        var output = Capture(() => OutputService.DisplayResults(stats, 30, 0, showAll: false));
+
+        Assert.Contains("Code files found:", output);
+    }
 }

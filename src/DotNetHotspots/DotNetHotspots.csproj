@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <ProjectGuid>{A3F1C2D0-84E5-4B96-9ACD-1234567890EF}</ProjectGuid>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <OutputType>Exe</OutputType>

@@ -63,7 +63,7 @@ public static class OutputService
         }
         else
         {
-            Console.WriteLine($"Code files found: {fileStats.Count}  |  Total files in repo history: {totalFilesInRepo}  |  Use --all to see everything");
+            Console.WriteLine($"Code files found: {fileStats.Count}  |  Total files in repo: {totalFilesInRepo}  |  Use --all to see everything");
         }
     }
 }

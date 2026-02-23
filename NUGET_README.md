@@ -28,14 +28,20 @@ Rank   Changes  File Path
 9      115      src/Services/EmailService.cs
 10     98       src/Models/Order.cs
 ================================================================================
-Code files found: 143  |  Total files in repo history: 381  |  Use --all to see everything
+Code files found: 143  |  Total files in repo: 381  |  Use --all to see everything
 ```
 
 ## :books: Usage Examples
 
 ```bash
-# Show top 10 hot files
+# Show top 10 hot files (--<number> accepts any positive integer: --10, --50, --100, ...)
 dotnet-hotspots --10
+
+# Show top 50 hot files
+dotnet-hotspots --50
+
+# No number? Defaults to top 30
+dotnet-hotspots
 
 # Show all files (including docs, configs, build artifacts, etc.)
 dotnet-hotspots --all
@@ -85,7 +91,7 @@ By default, non-code files are filtered out so the results focus on what matters
 `.md`, `.txt`, `.log`, `.lock`, `.sum`
 
 **Excluded files:**
-`.gitignore`, `.gitattributes`, `.editorconfig`, `.csharpierignore`, `.dockerignore`, `.env`, `Makefile`, `LICENSE`
+`.gitignore`, `.gitattributes`, `.editorconfig`, `.csharpierignore`, `.dockerignore`, `.env`, `Makefile`, `LICENSE`, `Dockerfile` (and `Dockerfile.*` variants)
 
 ## :mega: Issues or Suggestions
 

@@ -36,6 +36,28 @@ public static class GitService
     public static Task<List<FileChangeStat>> GetFileChangeStatsAsync() =>
         GetFileChangeStatsAsync(s_runGitCommand);
 
+    public static Task<HashSet<string>> GetCurrentFilePathsAsync() =>
+        GetCurrentFilePathsAsync(s_runGitCommand);
+
+    internal static async Task<HashSet<string>> GetCurrentFilePathsAsync(
+        Func<string, Task<(int ExitCode, string Output, string Error)>> runGitCommand
+    )
+    {
+        var result = await runGitCommand("ls-files");
+
+        if (result.ExitCode != 0)
+        {
+            // If git ls-files fails, return empty set (nothing will be filtered out)
+            return [];
+        }
+
+        return result
+            .Output.Split('\n', StringSplitOptions.RemoveEmptyEntries)
+            .Select(l => l.Trim().Replace('\\', '/'))
+            .Where(l => !string.IsNullOrEmpty(l))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+    }
+
     internal static async Task<List<FileChangeStat>> GetFileChangeStatsAsync(
         Func<string, Task<(int ExitCode, string Output, string Error)>> runGitCommand
     )
@@ -112,6 +134,7 @@ public static class GitService
         ".env",
         "Makefile",
         "LICENSE",
+        "Dockerfile",
     };
 
     public static List<FileChangeStat> FilterCodeFiles(List<FileChangeStat> files)
@@ -133,8 +156,12 @@ public static class GitService
 
         var fileName = segments[^1];
 
-        // Check excluded file names (e.g. .gitignore, LICENSE)
+        // Check excluded file names (e.g. .gitignore, LICENSE, Dockerfile)
         if (ExcludedFileNames.Contains(fileName))
+            return false;
+
+        // Exclude Dockerfile variants (e.g. Dockerfile.dev, Dockerfile.prod)
+        if (fileName.StartsWith("Dockerfile.", StringComparison.OrdinalIgnoreCase))
             return false;
 
         // Check excluded extensions

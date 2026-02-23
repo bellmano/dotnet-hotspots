@@ -31,12 +31,14 @@ public class ProgramTests
     private static Task<int> Run(
         string[] args,
         bool isGitRepo = true,
-        List<FileChangeStat>? stats = null
+        List<FileChangeStat>? stats = null,
+        HashSet<string>? currentFilePaths = null
     ) =>
         Program.RunAsync(
             args,
             () => Task.FromResult(isGitRepo),
-            () => Task.FromResult(stats ?? [])
+            () => Task.FromResult(stats ?? []),
+            currentFilePaths is null ? null : () => Task.FromResult(currentFilePaths)
         );
 
     [Fact]
@@ -93,6 +95,25 @@ public class ProgramTests
                     new() { FilePath = "README.md", ChangeCount = 5 },
                     new() { FilePath = "src/Services/UserService.cs", ChangeCount = 10 },
                 ]
+            )
+        );
+    }
+
+    [Fact]
+    public async Task RunAsync_DeletedFilesFiltered_ExcludesDeletedFromResults()
+    {
+        using var _ = SuppressConsole();
+        // allFileStats has 2 files, but only 1 is in the current repo (ls-files)
+        Assert.Equal(
+            0,
+            await Run(
+                [],
+                stats:
+                [
+                    new() { FilePath = "src/Services/UserService.cs", ChangeCount = 10 },
+                    new() { FilePath = "src/Old/DeletedService.cs", ChangeCount = 5 },
+                ],
+                currentFilePaths: ["src/Services/UserService.cs"]
             )
         );
     }

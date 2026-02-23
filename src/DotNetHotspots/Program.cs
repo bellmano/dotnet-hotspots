@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using DotNetHotspots.Models;
@@ -12,12 +13,18 @@ static class Program
 {
     [ExcludeFromCodeCoverage]
     static Task<int> Main(string[] args) =>
-        RunAsync(args, GitService.IsGitRepositoryAsync, GitService.GetFileChangeStatsAsync);
+        RunAsync(
+            args,
+            GitService.IsGitRepositoryAsync,
+            GitService.GetFileChangeStatsAsync,
+            GitService.GetCurrentFilePathsAsync
+        );
 
     internal static async Task<int> RunAsync(
         string[] args,
         Func<Task<bool>> isGitRepo,
-        Func<Task<List<FileChangeStat>>> getStats
+        Func<Task<List<FileChangeStat>>> getStats,
+        Func<Task<HashSet<string>>>? getCurrentFilePaths = null
     )
     {
         try
@@ -51,13 +58,28 @@ static class Program
                 return 0;
             }
 
+            // Filter out deleted files (files no longer in the working tree)
+            if (getCurrentFilePaths is not null)
+            {
+                var currentPaths = await getCurrentFilePaths();
+                if (currentPaths.Count > 0)
+                {
+                    allFileStats = allFileStats
+                        .Where(f => currentPaths.Contains(f.FilePath.Replace('\\', '/')))
+                        .ToList();
+                }
+            }
+
             var fileStats = options.ShowAll
                 ? allFileStats
                 : GitService.FilterCodeFiles(allFileStats);
 
+            // When --all is used, show every file; otherwise respect the requested count
+            var displayCount = options.ShowAll ? fileStats.Count : options.Count;
+
             OutputService.DisplayResults(
                 fileStats,
-                options.Count,
+                displayCount,
                 allFileStats.Count,
                 options.ShowAll
             );

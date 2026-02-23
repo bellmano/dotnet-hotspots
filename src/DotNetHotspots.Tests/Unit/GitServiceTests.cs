@@ -13,7 +13,6 @@ public class GitServiceTests
     [InlineData("src/Services/UserService.cs")]
     [InlineData("Program.cs")]
     [InlineData("src/app.js")]
-    [InlineData("Dockerfile")]
     [InlineData("src\\Services\\UserService.cs")]
     public void IsCodeFile_Returns_True_ForCodeFiles(string path)
     {
@@ -66,6 +65,11 @@ public class GitServiceTests
     [InlineData(".env")]
     [InlineData("LICENSE")]
     [InlineData("Makefile")]
+    [InlineData("Dockerfile")]
+    [InlineData("Dockerfile.dev")]
+    [InlineData("Dockerfile.prod")]
+    [InlineData("src/Dockerfile")]
+    [InlineData("docker/Dockerfile.ci")]
     public void IsCodeFile_Returns_False_ForExcludedPaths(string path)
     {
         Assert.False(GitService.IsCodeFile(path));
@@ -163,6 +167,29 @@ public class GitServiceTests
     }
 
     [Fact]
+    public async Task GetCurrentFilePathsAsync_ReturnsCurrentFiles()
+    {
+        var fakeOutput = "src/Services/UserService.cs\nsrc/Program.cs\n";
+        var result = await GitService.GetCurrentFilePathsAsync(_ =>
+            Task.FromResult((0, fakeOutput, string.Empty))
+        );
+
+        Assert.Equal(2, result.Count);
+        Assert.Contains("src/Services/UserService.cs", result);
+        Assert.Contains("src/Program.cs", result);
+    }
+
+    [Fact]
+    public async Task GetCurrentFilePathsAsync_GitFails_ReturnsEmpty()
+    {
+        var result = await GitService.GetCurrentFilePathsAsync(_ =>
+            Task.FromResult((1, string.Empty, "fatal: not a git repository"))
+        );
+
+        Assert.Empty(result);
+    }
+
+    [Fact]
     public async Task IsGitRepositoryAsync_InsideGitRepo_ReturnsTrue()
     {
         var result = await GitService.IsGitRepositoryAsync();
@@ -194,6 +221,13 @@ public class GitServiceTests
         Assert.NotNull(result);
         for (int i = 0; i < result.Count - 1; i++)
             Assert.True(result[i].ChangeCount >= result[i + 1].ChangeCount);
+    }
+
+    [Fact]
+    public async Task GetCurrentFilePathsAsync_InsideGitRepo_ReturnsHashSet()
+    {
+        var result = await GitService.GetCurrentFilePathsAsync();
+        Assert.NotNull(result);
     }
 
     [Fact]

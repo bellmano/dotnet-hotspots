@@ -14,6 +14,7 @@ public class GitServiceTests
     [InlineData("Program.cs")]
     [InlineData("src/app.js")]
     [InlineData("src\\Services\\UserService.cs")]
+    [InlineData("src/myfile")]
     public void IsCodeFile_Returns_True_ForCodeFiles(string path)
     {
         Assert.True(GitService.IsCodeFile(path));

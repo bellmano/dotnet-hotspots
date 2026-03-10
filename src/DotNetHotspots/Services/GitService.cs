@@ -99,6 +99,7 @@ public static class GitService
         // Docs / text
         ".md",
         ".txt",
+        ".pdf",
         ".lock",
         ".sum",
         ".log",

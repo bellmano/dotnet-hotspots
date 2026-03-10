@@ -39,6 +39,7 @@ public class GitServiceTests
     [InlineData("src/obj/nested/file.cs")]
     [InlineData("README.md")]
     [InlineData("src/NOTES.txt")]
+    [InlineData("docs/manual.pdf")]
     [InlineData("logs/output.log")]
     [InlineData("Gemfile.lock")]
     [InlineData("go.sum")]

@@ -128,7 +128,7 @@ By default, dotnet-hotspots filters out non-code files so the results focus on w
 `bin`, `obj`, `dist`, `build`, `publish`, `packages`, `.git`, `.vs`, `.idea`, `.nuget`, `.vscode`, `node_modules`
 
 **Excluded extensions:**
-`.md`, `.txt`, `.log`, `.lock`, `.sum`
+`.md`, `.txt`, `.pdf`, `.log`, `.lock`, `.sum`
 
 **Excluded files:**
 `.gitignore`, `.gitattributes`, `.editorconfig`, `.csharpierignore`, `.dockerignore`, `.env`, `Makefile`, `LICENSE`, `Dockerfile` (and `Dockerfile.*` variants)

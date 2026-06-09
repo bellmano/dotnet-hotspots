@@ -7,7 +7,7 @@
     <IsPackable>true</IsPackable>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>dotnet-hotspots</ToolCommandName>
-    <Authors>Mattias Mälman / bellmano</Authors>
+    <Authors>Mattias Mälman</Authors>
     <Description>A .NET global tool to identify the most frequently changed files in a git repository</Description>
     <PackageId>dotnet-hotspots-tool</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

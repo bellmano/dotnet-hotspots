@@ -43,7 +43,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           cd src
-          dotnet test DropboxCleaner.Tests/DropboxCleaner.Tests.csproj -f net10.0 --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          dotnet test DotNetHotspots.Tests/DotNetHotspots.Tests.csproj -f net10.0 --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -51,9 +51,9 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           cd src
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"bellmano_DropboxCleaner" /o:"bellmano" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"bellmano_dotnet-hotspots" /o:"bellmano" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
           if ($LASTEXITCODE -ne 0) { throw "sonarscanner begin failed with exit code $LASTEXITCODE" }
-          dotnet build DropboxCleaner/DropboxCleaner.csproj -f net10.0
+          dotnet build DotNetHotspots/DotNetHotspots.csproj -f net10.0
           if ($LASTEXITCODE -ne 0) { throw "dotnet build failed with exit code $LASTEXITCODE" }
           ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
           if ($LASTEXITCODE -ne 0) { throw "sonarscanner end failed with exit code $LASTEXITCODE" }

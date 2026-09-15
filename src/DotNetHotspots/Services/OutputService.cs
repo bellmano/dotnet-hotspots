@@ -25,7 +25,12 @@ public static class OutputService
         Console.WriteLine("  dotnet-hotspots --all              # Show all files, no filtering");
     }
 
-    public static void DisplayResults(List<FileChangeStat> fileStats, int count, int totalFilesInRepo, bool showAll)
+    public static void DisplayResults(
+        List<FileChangeStat> fileStats,
+        int count,
+        int totalFilesInRepo,
+        bool showAll
+    )
     {
         var displayed = Math.Min(count, fileStats.Count);
         var title = showAll
@@ -37,7 +42,9 @@ public static class OutputService
         const int minPathWidth = 9; // "File Path".Length
         var pathColumnWidth = Math.Max(
             minPathWidth,
-            fileStats.Count > 0 ? fileStats.Take(displayed).Max(f => f.FilePath.Length) : minPathWidth
+            fileStats.Count > 0
+                ? fileStats.Take(displayed).Max(f => f.FilePath.Length)
+                : minPathWidth
         );
         var totalWidth = rankWidth + 1 + changesWidth + 1 + pathColumnWidth;
 
@@ -63,7 +70,9 @@ public static class OutputService
         }
         else
         {
-            Console.WriteLine($"Code files found: {fileStats.Count}  |  Total files in repo: {totalFilesInRepo}  |  Use --all to see everything");
+            Console.WriteLine(
+                $"Code files found: {fileStats.Count}  |  Total files in repo: {totalFilesInRepo}  |  Use --all to see everything"
+            );
         }
     }
 }

@@ -3,9 +3,9 @@
     "dotnet.defaultSolution": "src/DotNetHotspots.slnx",
     "dotnet-test-explorer.testProjectPath": "src/DotNetHotspots.Tests/DotNetHotspots.Tests.csproj",
     "dotnet.preferCSharpExtension": false,
-    "editor.formatOnSave": true,
     "[csharp]": {
-        "editor.defaultFormatter": "csharpier.csharpier-vscode"
+        "editor.defaultFormatter": "csharpier.csharpier-vscode",
+        "editor.formatOnSave": true
     },
     "sonarlint.connectedMode.project": {
         "connectionId": "bellmano",

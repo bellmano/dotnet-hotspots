@@ -41,7 +41,7 @@ jobs:
             -o "$OUTPUT"
 
       - name: NuGet login
-        uses: NuGet/login@v1
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
         id: nuget-login
         with:
           user: bellmano
@@ -55,7 +55,7 @@ jobs:
 
       # Creates the git tag and GitHub Release, and attaches the .nupkg as a release asset.
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631 # v2.2.2
         with:
           tag_name: v${{ steps.package.outputs.version }}
           name: v${{ steps.package.outputs.version }}

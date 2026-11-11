@@ -98,11 +98,10 @@ static class Program
     )]
     private static string GetVersion()
     {
-        var version =
-            Assembly
-                .GetEntryAssembly()
-                ?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
-                ?.InformationalVersion
+        var version = Assembly
+            .GetEntryAssembly()
+            ?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+            ?.InformationalVersion
             ?? "1.0.0";
 
         var plusIndex = version.IndexOf('+');
